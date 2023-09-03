@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShopkeeperNPC : MonoBehaviour
@@ -28,15 +29,15 @@ public class ShopkeeperNPC : MonoBehaviour
 
     #region Methods
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        if(!other.CompareTag("Player")) return;
+        if(!col.CompareTag("Player")) return;
         
         interactTextObject.SetActive(true);
         _playerController.OnEPressed += StartInteraction;
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if(!other.CompareTag("Player")) return;
         
@@ -51,7 +52,7 @@ public class ShopkeeperNPC : MonoBehaviour
         OptionSelected();
         
         _playerController.ToggleMoveInputs(false);
-        _playerController.OnEscPressed += StopInteraction;
+        _playerController.OnEPressed -= StartInteraction;
     }
     
     private void StopInteraction()
@@ -61,6 +62,7 @@ public class ShopkeeperNPC : MonoBehaviour
         
         _playerController.ToggleMoveInputs(true);
         _playerController.OnEscPressed -= StopInteraction;
+        _playerController.OnEPressed += StartInteraction;
     }
 
     public void BuyOptionSelected()

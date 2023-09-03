@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private Vector2 _movement;
-    private bool _stopMoveInput = false;
+    private bool _canMoveInput = true;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -30,7 +30,8 @@ public class PlayerController : MonoBehaviour
             OnEscPressed();
         }
         
-        if(_stopMoveInput) return;
+        if(!_canMoveInput) return;
+        
         _movement.x = Input.GetAxisRaw("Horizontal");
         _movement.y = Input.GetAxisRaw("Vertical");
         
@@ -48,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     public void ToggleMoveInputs(bool value)
     {
-        _stopMoveInput = value;
+        _canMoveInput = value;
     }
 
     #endregion
