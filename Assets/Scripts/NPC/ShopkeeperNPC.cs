@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VendorNPC : MonoBehaviour
+public class ShopkeeperNPC : MonoBehaviour
 {
     #region Variables
 
