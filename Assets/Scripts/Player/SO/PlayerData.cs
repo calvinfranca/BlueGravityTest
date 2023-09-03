@@ -9,6 +9,7 @@ public class PlayerData : ScriptableObject
 
     [Header("Money")]
     [SerializeField] private int startingMoney;
+    [SerializeField] private ClotheData startingClothe;
     
     [SerializeField] private Sprite startSprite;
 
@@ -17,6 +18,7 @@ public class PlayerData : ScriptableObject
     #region Proprieties
 
     public int StartingMoney => startingMoney;
+    public ClotheData StartingClothe => startingClothe;
     public Sprite StartSprite => startSprite;
 
     #endregion

@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24c1dbacba3e1f54d9c0963f2ec90c49, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  startingMoney: 1000
+  startingMoney: 2000
+  startingClothe: {fileID: 11400000, guid: d243d378611d3d846a18ab25cc2139c4, type: 2}
   startSprite: {fileID: 0}
