@@ -13,7 +13,6 @@ public class VendorNPC : MonoBehaviour
     [SerializeField] private GameObject sellOptionObject;
     [SerializeField] private GameObject buyOptionObject;
 
-    private bool _waitingForInput = false;
     private PlayerController _playerController;
 
     #endregion
@@ -25,16 +24,6 @@ public class VendorNPC : MonoBehaviour
         _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
-    private void Update()
-    {
-        if(!_waitingForInput) return;
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            StartInteraction();
-        }
-    }
-
     #endregion
 
     #region Methods
@@ -44,7 +33,7 @@ public class VendorNPC : MonoBehaviour
         if(!other.CompareTag("Player")) return;
         
         interactTextObject.SetActive(true);
-        _waitingForInput = true;
+        _playerController.OnEPressed += StartInteraction;
     }
 
     private void OnTriggerExit(Collider other)
@@ -52,28 +41,34 @@ public class VendorNPC : MonoBehaviour
         if(!other.CompareTag("Player")) return;
         
         interactTextObject.SetActive(false);
-        _waitingForInput = false;
+        _playerController.OnEPressed -= StartInteraction;
     }
 
     private void StartInteraction()
     {
         interactTextObject.SetActive(false);
         backgroundOptionsObject.SetActive(true);
-        chatOptionsObject.SetActive(true);
-        _waitingForInput = false;
+        OptionSelected();
+        
+        _playerController.ToggleMoveInputs(false);
+        _playerController.OnEscPressed += StopInteraction;
     }
     
     private void StopInteraction()
     {
-        interactTextObject.SetActive(false);
-        backgroundOptionsObject.SetActive(true);
-        chatOptionsObject.SetActive(true);
+        CloseAllChatObjects();
+        interactTextObject.SetActive(true);
+        
+        _playerController.ToggleMoveInputs(true);
+        _playerController.OnEscPressed -= StopInteraction;
     }
 
     public void BuyOptionSelected()
     {
         chatOptionsObject.SetActive(false);
         buyOptionObject.SetActive(true);
+        
+        _playerController.OnEscPressed -= StopInteraction;
         _playerController.OnEscPressed += OptionSelected;
     }
     
@@ -81,6 +76,8 @@ public class VendorNPC : MonoBehaviour
     {
         chatOptionsObject.SetActive(false);
         sellOptionObject.SetActive(true);
+        
+        _playerController.OnEscPressed -= StopInteraction;
         _playerController.OnEscPressed += OptionSelected;
     }
     
@@ -89,8 +86,17 @@ public class VendorNPC : MonoBehaviour
         buyOptionObject.SetActive(false);
         sellOptionObject.SetActive(false);
         chatOptionsObject.SetActive(true);
+        
         _playerController.OnEscPressed -= OptionSelected;
         _playerController.OnEscPressed += StopInteraction;
+    }
+
+    private void CloseAllChatObjects()
+    {
+        buyOptionObject.SetActive(false);
+        sellOptionObject.SetActive(false);
+        chatOptionsObject.SetActive(false);
+        backgroundOptionsObject.SetActive(false);
     }
 
     #endregion
