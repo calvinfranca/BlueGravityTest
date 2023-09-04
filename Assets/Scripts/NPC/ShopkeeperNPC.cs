@@ -9,8 +9,10 @@ public class ShopkeeperNPC : MonoBehaviour
 {
     #region Variables
 
+    [Header("Clothes Datas")]
     [SerializeField] private ClotheData[] clotheDatas;
 
+    [Header("Screens and Objects")]
     [SerializeField] private GameObject interactTextObject;
     [SerializeField] private GameObject backgroundOptionsObject;
     [SerializeField] private GameObject chatOptionsObject;
@@ -18,13 +20,17 @@ public class ShopkeeperNPC : MonoBehaviour
     [SerializeField] private GameObject buyOptionObject;
     [SerializeField] private GameObject currentMoneyObject;
     [SerializeField] private TextMeshProUGUI currentMoneyText;
+    [SerializeField] private GameObject pressEscObject;
     
+    [Header("Containers")]
     [SerializeField] private GameObject buyClotheContainer;
     [SerializeField] private GameObject sellClotheContainer;
     
+    [Header("Prefabs")]
     [SerializeField] private GameObject buyClothePrefab;
     [SerializeField] private GameObject sellClothePrefab;
     
+    [Header("Result Screens")]
     [SerializeField] private GameObject interactionBuySuccessObject;
     [SerializeField] private GameObject interactionBuyFailedObject;
     [SerializeField] private GameObject interactionSellSuccessObject;
@@ -116,6 +122,7 @@ public class ShopkeeperNPC : MonoBehaviour
     {
         chatOptionsObject.SetActive(false);
         buyOptionObject.SetActive(true);
+        pressEscObject.SetActive(true);
         PopulateBuyOptions();
         
         ToggleShowCurrentMoney(true);
@@ -128,6 +135,7 @@ public class ShopkeeperNPC : MonoBehaviour
     {
         chatOptionsObject.SetActive(false);
         sellOptionObject.SetActive(true);
+        pressEscObject.SetActive(true);
         PopulateSellOptions();
         
         ToggleShowCurrentMoney(true);
@@ -143,6 +151,7 @@ public class ShopkeeperNPC : MonoBehaviour
         DestroyBuyButtons();
         DestroySellButtons();
         chatOptionsObject.SetActive(true);
+        pressEscObject.SetActive(true);
         
         ToggleShowCurrentMoney(false);
         
@@ -156,6 +165,7 @@ public class ShopkeeperNPC : MonoBehaviour
         sellOptionObject.SetActive(false);
         chatOptionsObject.SetActive(false);
         backgroundOptionsObject.SetActive(false);
+        pressEscObject.SetActive(false);
     }
 
     private void UpdateCurrentMoney()
@@ -220,6 +230,8 @@ public class ShopkeeperNPC : MonoBehaviour
 
     private void TryBuyClothe(ClotheData clothe)
     {
+        pressEscObject.SetActive(false);
+        
         if(_currentMoney >= clothe.BuyPrice)
             BuyClothe(clothe);
         else
@@ -265,6 +277,7 @@ public class ShopkeeperNPC : MonoBehaviour
         UpdateAvailableClothes();
         
         sellOptionObject.SetActive(false);
+        pressEscObject.SetActive(false);
         interactionSellSuccessObject.SetActive(true);
         
         UpdateCurrentMoney();
