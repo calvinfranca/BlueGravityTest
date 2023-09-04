@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c006db14184e064499c60fc0d213d3e, type: 3}
   m_Name: ClotheData_Pink
   m_EditorClassIdentifier: 
+  clotheID: 2
   buyPrice: 100
   sellPrice: 50
-  clotheSprite: {fileID: 21300020, guid: addd2af175d074643a3b1f29f6c23041, type: 3}
+  clotheSprite: {fileID: 21300000, guid: b32213db054d40d4b92b5c785ab7c426, type: 3}
   clotheName: Pretty Pink
   description: 'People WILL fall in love with you! '

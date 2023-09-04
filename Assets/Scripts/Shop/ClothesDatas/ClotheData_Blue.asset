@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c006db14184e064499c60fc0d213d3e, type: 3}
   m_Name: ClotheData_Blue
   m_EditorClassIdentifier: 
+  clotheID: 1
   buyPrice: 500
   sellPrice: 250
-  clotheSprite: {fileID: 21300000, guid: 47d9d270483767d44b2ef0a8da994f67, type: 3}
+  clotheSprite: {fileID: 21300000, guid: 4b898695c3a09f142b1f4fbe893e33c1, type: 3}
   clotheName: Blue Gravity Suit
   description: The legendary outfit for programmers!

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c006db14184e064499c60fc0d213d3e, type: 3}
   m_Name: ClotheData_Red
   m_EditorClassIdentifier: 
+  clotheID: 3
   buyPrice: 300
   sellPrice: 150
-  clotheSprite: {fileID: 21300000, guid: 8bfadec067237c04ab16144f6847e733, type: 3}
+  clotheSprite: {fileID: 21300000, guid: 31eea90da8a6cc3498c975b2ce9d6e75, type: 3}
   clotheName: Blood Vest
   description: If you bleed on this, no one will notice...
