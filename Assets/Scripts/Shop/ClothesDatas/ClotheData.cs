@@ -8,6 +8,7 @@ public class ClotheData : ScriptableObject
     #region Variables
 
     [Header("Money")]
+    [SerializeField] private int clotheID;
     [SerializeField] private int buyPrice;
     [SerializeField] private int sellPrice;
     [SerializeField] private Sprite clotheSprite;
@@ -18,6 +19,7 @@ public class ClotheData : ScriptableObject
 
     #region Proprieties
 
+    public int ClotheID => clotheID;
     public int BuyPrice => buyPrice;
     public int SellPrice => sellPrice;
     public Sprite ClotheSprite => clotheSprite;

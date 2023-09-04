@@ -10,8 +10,8 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerData data;
 
     private int _currentMoney;
+    private ClotheData _currentClothe;
     private List<ClotheData> _clothesInInventory = new List<ClotheData>();
-    private SpriteRenderer _spriteRenderer;
 
     #endregion
 
@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
 
     public List<ClotheData> ClothesInInventory => _clothesInInventory;
     public int CurrentMoney => _currentMoney;
+    public ClotheData CurrentClothe => _currentClothe;
 
     #endregion
 
@@ -26,9 +27,9 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _currentMoney = data.StartingMoney;
         _clothesInInventory.Add(data.StartingClothe);
+        _currentClothe = data.StartingClothe;
     }
 
     #endregion
@@ -47,9 +48,9 @@ public class Player : MonoBehaviour
         _currentMoney += value;
     }
 
-    public void ChangeClothes(Sprite newSprite)
+    public void ChangeClothes(ClotheData clothe)
     {
-        _spriteRenderer.sprite = newSprite;
+        _currentClothe = clothe;
     }
 
     public void AddClotheToInventory(ClotheData clothe)
