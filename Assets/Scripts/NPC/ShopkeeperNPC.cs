@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ public class ShopkeeperNPC : MonoBehaviour
     [SerializeField] private GameObject chatOptionsObject;
     [SerializeField] private GameObject sellOptionObject;
     [SerializeField] private GameObject buyOptionObject;
+    [SerializeField] private GameObject currentMoneyObject;
+    [SerializeField] private TextMeshProUGUI currentMoneyText;
     
     [SerializeField] private GameObject buyClotheContainer;
     [SerializeField] private GameObject sellClotheContainer;
@@ -28,6 +31,7 @@ public class ShopkeeperNPC : MonoBehaviour
 
     private PlayerController _playerController;
     private Player _player;
+    private int _currentMoney;
     
     private List<ClotheData> _availableClotheDatas = new List<ClotheData>();
     private List<GameObject> _buyButtons = new List<GameObject>();
@@ -67,6 +71,7 @@ public class ShopkeeperNPC : MonoBehaviour
         _player = col.GetComponent<Player>();
 
         UpdateAvailableClothes();
+        UpdateCurrentMoney();
     }
 
     private void UpdateAvailableClothes()
@@ -102,11 +107,18 @@ public class ShopkeeperNPC : MonoBehaviour
         _playerController.OnEPressed += StartInteraction;
     }
 
+    private void ToggleShowCurrentMoney(bool show)
+    {
+        currentMoneyObject.SetActive(show);
+    }
+
     public void BuyOptionSelected()
     {
         chatOptionsObject.SetActive(false);
         buyOptionObject.SetActive(true);
         PopulateBuyOptions();
+        
+        ToggleShowCurrentMoney(true);
         
         _playerController.OnEscPressed -= StopInteraction;
         _playerController.OnEscPressed += OptionSelected;
@@ -117,6 +129,8 @@ public class ShopkeeperNPC : MonoBehaviour
         chatOptionsObject.SetActive(false);
         sellOptionObject.SetActive(true);
         PopulateSellOptions();
+        
+        ToggleShowCurrentMoney(true);
         
         _playerController.OnEscPressed -= StopInteraction;
         _playerController.OnEscPressed += OptionSelected;
@@ -130,6 +144,8 @@ public class ShopkeeperNPC : MonoBehaviour
         DestroySellButtons();
         chatOptionsObject.SetActive(true);
         
+        ToggleShowCurrentMoney(false);
+        
         _playerController.OnEscPressed -= OptionSelected;
         _playerController.OnEscPressed += StopInteraction;
     }
@@ -140,6 +156,12 @@ public class ShopkeeperNPC : MonoBehaviour
         sellOptionObject.SetActive(false);
         chatOptionsObject.SetActive(false);
         backgroundOptionsObject.SetActive(false);
+    }
+
+    private void UpdateCurrentMoney()
+    {
+        _currentMoney = _player.CurrentMoney;
+        currentMoneyText.text = _player.CurrentMoney.ToString();
     }
 
     private void PopulateBuyOptions()
@@ -198,10 +220,12 @@ public class ShopkeeperNPC : MonoBehaviour
 
     private void TryBuyClothe(ClotheData clothe)
     {
-        if(_player.CurrentMoney >= clothe.BuyPrice)
+        if(_currentMoney >= clothe.BuyPrice)
             BuyClothe(clothe);
         else
             BuyClotheFailed();
+        
+        ToggleShowCurrentMoney(false);
     }
 
     private void BuyClothe(ClotheData clothe)
@@ -215,6 +239,7 @@ public class ShopkeeperNPC : MonoBehaviour
         buyOptionObject.SetActive(false);
         interactionBuySuccessObject.SetActive(true);
         
+        UpdateCurrentMoney();
         DestroyBuyButtons();
         DestroySellButtons();
     }
@@ -224,6 +249,7 @@ public class ShopkeeperNPC : MonoBehaviour
         _playerController.OnEscPressed -= OptionSelected;
         interactionBuyFailedObject.SetActive(true);
         
+        UpdateCurrentMoney();
         DestroyBuyButtons();
         DestroySellButtons();
     }
@@ -234,11 +260,14 @@ public class ShopkeeperNPC : MonoBehaviour
         _player.RemoveClotheFromInventory(clothe);
         _player.ReceiveMoney(clothe.SellPrice);
         
+        ToggleShowCurrentMoney(false);
+        
         UpdateAvailableClothes();
         
         sellOptionObject.SetActive(false);
         interactionSellSuccessObject.SetActive(true);
         
+        UpdateCurrentMoney();
         DestroyBuyButtons();
         DestroySellButtons();
     }
